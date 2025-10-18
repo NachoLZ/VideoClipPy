@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video Editor - Highlight & Subtitle Tool</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>🎬 Video Editor</h1>
+        <p>
+          Upload your video, highlight words for subtitles, and add overlay
+          clips
+        </p>
+      </header>
+
+      <!-- Step 1: Upload Main Video -->
+      <section class="card" id="upload-section">
+        <h2>Step 1: Upload Video & Script</h2>
+
+        <!-- Video Upload -->
+        <div class="upload-area">
+          <h3>📹 Main Video</h3>
+          <input
+            type="file"
+            id="main-video-input"
+            accept="video/*"
+            style="display: none"
+          />
+          <button
+            class="btn btn-primary"
+            onclick="document.getElementById('main-video-input').click()"
+          >
+            Choose Video File
+          </button>
+          <p id="video-filename" class="filename-display"></p>
+        </div>
+
+        <!-- TXT Upload -->
+        <div class="upload-area" style="margin-top: 20px">
+          <h3>📄 Script/Transcript (TXT File)</h3>
+          <input
+            type="file"
+            id="transcript-file-input"
+            accept=".txt"
+            style="display: none"
+          />
+          <button
+            class="btn btn-primary"
+            onclick="document.getElementById('transcript-file-input').click()"
+          >
+            Choose TXT File
+          </button>
+          <p id="transcript-filename" class="filename-display"></p>
+          <p class="option-description">
+            ⚡ Upload a .txt file with your script. Words will be evenly
+            distributed across the video duration.
+          </p>
+        </div>
+
+        <button class="btn btn-success btn-large" id="upload-btn" disabled>
+          ⬆️ Upload & Process
+        </button>
+        <div id="upload-progress" class="progress-bar" style="display: none">
+          <div class="progress-fill"></div>
+          <span class="progress-text">Processing...</span>
+        </div>
+      </section>
+
+      <!-- Step 2: View Transcript & Add Highlights -->
+      <section class="card" id="transcript-section" style="display: none">
+        <h2>Step 2: Select Text for Highlights</h2>
+        <p class="instruction">
+          💡 <strong>How to select:</strong> Click and drag to select multiple
+          words, or click one word then Shift+Click another to select a range.
+        </p>
+
+        <div id="transcript-display" class="transcript-box"></div>
+
+        <div id="selection-controls" style="display: none">
+          <h3>Selected Text: "<span id="selected-text"></span>"</h3>
+          <div class="highlight-form">
+            <div class="form-group">
+              <label>Upload Clip/Audio for this highlight:</label>
+              <input type="file" id="clip-input" accept="video/*,audio/*" />
+              <button class="btn btn-secondary" id="upload-clip-btn">
+                Upload
+              </button>
+            </div>
+            <div class="form-group">
+              <label>Or select existing clip:</label>
+              <select id="existing-clips">
+                <option value="">-- Select existing file --</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Music Volume:</label>
+              <input
+                type="range"
+                id="music-volume"
+                min="0"
+                max="2"
+                step="0.1"
+                value="1.0"
+              />
+              <span id="volume-display">1.0</span>
+            </div>
+            <button class="btn btn-success" id="add-highlight-btn">
+              ✅ Add Highlight
+            </button>
+            <button class="btn btn-secondary" id="cancel-selection-btn">
+              ❌ Cancel
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 3: Review Subtitles -->
+      <section class="card" id="highlights-section" style="display: none">
+        <h2>Step 3: Review Your Subtitles & Clips</h2>
+        <p class="instruction">
+          Each subtitle below will appear in your video during the selected
+          words, with the assigned video clip or audio playing.
+        </p>
+        <div id="highlights-list"></div>
+        <button class="btn btn-primary btn-large" id="process-btn">
+          🎥 Process Video
+        </button>
+        <div id="process-progress" class="progress-bar" style="display: none">
+          <div class="progress-fill"></div>
+          <span class="progress-text"
+            >Processing video... This may take a while.</span
+          >
+        </div>
+      </section>
+
+      <!-- Step 4: Download Result -->
+      <section class="card" id="result-section" style="display: none">
+        <h2>✅ Video Processed Successfully!</h2>
+        <p id="result-message"></p>
+        <button class="btn btn-success btn-large" id="download-btn">
+          ⬇️ Download Processed Video
+        </button>
+        <button class="btn btn-secondary" onclick="location.reload()">
+          🔄 Start New Project
+        </button>
+      </section>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </body>
+</html>

@@ -1,0 +1,42 @@
+[
+    {
+        "word": "We",
+        "start_time": 0.0,
+        "end_time": 0.7458333333333333
+    },
+    {
+        "word": "always",
+        "start_time": 0.7458333333333333,
+        "end_time": 1.4916666666666667
+    },
+    {
+        "word": "enjoyed",
+        "start_time": 1.4916666666666667,
+        "end_time": 2.2375
+    },
+    {
+        "word": "ourselves",
+        "start_time": 2.2375,
+        "end_time": 2.9833333333333334
+    },
+    {
+        "word": "and",
+        "start_time": 2.9833333333333334,
+        "end_time": 3.729166666666667
+    },
+    {
+        "word": "did",
+        "start_time": 3.729166666666667,
+        "end_time": 4.4750000000000005
+    },
+    {
+        "word": "everything",
+        "start_time": 4.4750000000000005,
+        "end_time": 5.220833333333334
+    },
+    {
+        "word": "together",
+        "start_time": 5.220833333333334,
+        "end_time": 5.966666666666668
+    }
+]
