@@ -535,9 +535,65 @@ header p {
     font-weight: 500;
 }
 
+/* Step 5: Music Selection - Word Styling */
+.word-inline-music {
+    display: inline;
+    cursor: pointer;
+    user-select: none;
+    color: #2d3748;
+    transition: all 0.15s ease;
+    padding: 2px 0;
+}
+
+.word-inline-music:hover {
+    color: #5a67d8;
+    font-weight: 500;
+}
+
+.word-inline-music.selected {
+    background: #48bb78;
+    color: white;
+    padding: 4px 6px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.word-inline-music.highlighted {
+    background: #ffd700;
+    padding: 4px 6px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
 .btn-sm {
     padding: 6px 12px;
     font-size: 0.9em;
+}
+
+/* Music Section */
+.music-controls {
+    background: #f7fafc;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #e2e8f0;
+}
+
+#selected-music-display {
+    background: #e6fffa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+    border-left: 4px solid #48bb78;
+}
+
+#selected-music-display p {
+    margin: 0;
+    color: #2d3748;
+}
+
+#selected-music-name {
+    color: #48bb78;
+    font-weight: bold;
 }
 
 /* Responsive */

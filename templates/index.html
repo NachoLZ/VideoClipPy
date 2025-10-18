@@ -100,8 +100,8 @@
           <h3>Selected Text: "<span id="selected-text"></span>"</h3>
           <div class="highlight-form">
             <div class="form-group">
-              <label>Upload Clip/Audio for this highlight:</label>
-              <input type="file" id="clip-input" accept="video/*,audio/*" />
+              <label>Upload Clip for this highlight:</label>
+              <input type="file" id="clip-input" accept="video/*" />
               <button class="btn btn-secondary" id="upload-clip-btn">
                 Upload
               </button>
@@ -111,18 +111,6 @@
               <select id="existing-clips">
                 <option value="">-- Select existing file --</option>
               </select>
-            </div>
-            <div class="form-group">
-              <label>Music Volume:</label>
-              <input
-                type="range"
-                id="music-volume"
-                min="0"
-                max="2"
-                step="0.1"
-                value="1.0"
-              />
-              <span id="volume-display">1.0</span>
             </div>
             <button class="btn btn-success" id="add-highlight-btn">
               ✅ Add Highlight
@@ -134,14 +122,78 @@
         </div>
       </section>
 
-      <!-- Step 4: Review Subtitles -->
+      <!-- Step 4: Review Your Clips -->
       <section class="card" id="highlights-section" style="display: none">
-        <h2>Step 4: Review Your Subtitles & Clips</h2>
+        <h2>Step 4: Review Your Clips</h2>
         <p class="instruction">
-          Each subtitle below will appear in your video during the selected
-          words, with the assigned video clip or audio playing.
+          Each clip below will appear in your video during the selected words.
         </p>
         <div id="highlights-list"></div>
+      </section>
+
+      <!-- Step 5: Select Text for Music/Audio -->
+      <section class="card" id="music-selection-section" style="display: none">
+        <h2>Step 5: Select Text for Music/Audio</h2>
+        <p class="instruction">
+          💡 <strong>How to select:</strong> Click and drag to select multiple
+          words, or click one word then Shift+Click another to select a range.
+        </p>
+
+        <div id="music-transcript-display" class="transcript-box"></div>
+
+        <div id="music-selection-controls" style="display: none">
+          <h3>Selected Text: "<span id="music-selected-text"></span>"</h3>
+          <div class="highlight-form">
+            <div class="form-group">
+              <label>Upload Audio/Music for this selection:</label>
+              <input type="file" id="music-input" accept="audio/*" />
+              <button class="btn btn-secondary" id="upload-music-btn">
+                Upload
+              </button>
+            </div>
+            <div class="form-group">
+              <label>Or select existing audio:</label>
+              <select id="existing-music-select">
+                <option value="">-- Select existing audio --</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Audio Volume:</label>
+              <input
+                type="range"
+                id="music-volume"
+                min="0"
+                max="2"
+                step="0.1"
+                value="1.0"
+              />
+              <span id="music-volume-display">1.0</span>
+            </div>
+            <button class="btn btn-success" id="add-music-btn">
+              ✅ Add Music
+            </button>
+            <button class="btn btn-secondary" id="cancel-music-selection-btn">
+              ❌ Cancel
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 6: Review Your Music/Audio -->
+      <section class="card" id="music-highlights-section" style="display: none">
+        <h2>Step 6: Review Your Music/Audio</h2>
+        <p class="instruction">
+          Each audio/music below will play during the selected words.
+        </p>
+        <div id="music-highlights-list"></div>
+      </section>
+
+      <!-- Step 7: Process Video -->
+      <section class="card" id="process-section" style="display: none">
+        <h2>Step 7: Process Your Video</h2>
+        <p class="instruction">
+          Ready to create your final video? Click the button below to process.
+        </p>
         <button class="btn btn-primary btn-large" id="process-btn">
           🎥 Process Video
         </button>
@@ -153,7 +205,7 @@
         </div>
       </section>
 
-      <!-- Step 5: Download Result -->
+      <!-- Step 8: Download Result -->
       <section class="card" id="result-section" style="display: none">
         <h2>✅ Video Processed Successfully!</h2>
         <p id="result-message"></p>
