@@ -408,126 +408,130 @@ header p {
     margin: 20px 0;
 }
 
-/* Subtitle Summary Boxes (Organization Only) */
-.subtitle-summary-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 30px;
-    padding: 20px;
-    background: #f8f9fa;
-    border-radius: 10px;
+/* Step Header */
+.step-header {
+    margin-bottom: 15px;
 }
 
-.subtitle-summary-box {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 12px 15px;
-    background: white;
-    border: 2px solid #e0e0e0;
-    border-radius: 8px;
-    transition: all 0.2s ease;
-}
-
-.subtitle-summary-box:hover {
-    border-color: #667eea;
-    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
-}
-
-.subtitle-summary-text {
-    flex: 1;
-    color: #2d3748;
-    font-size: 0.95em;
-}
-
-.subtitle-summary-info {
-    color: #718096;
-    font-size: 0.85em;
-    white-space: nowrap;
-}
-
-/* Transcript Header */
-.transcript-header {
-    margin: 30px 0 20px 0;
-}
-
-.transcript-header h3 {
-    color: #2d3748;
-    margin: 0 0 10px 0;
-}
-
-.transcript-description {
-    color: #718096;
+.step-header h3 {
+    color: #5a67d8;
+    font-size: 1.3em;
     margin: 0;
-    font-size: 0.95em;
+    font-weight: 600;
 }
 
-/* Transcript Container with Word Selection */
-.transcript-container {
+/* Step Instructions */
+.step-instructions {
+    background: #f7fafc;
+    padding: 12px 18px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    color: #2d3748;
+    font-size: 0.95em;
+    line-height: 1.6;
+}
+
+.step-instructions strong {
+    color: #2d3748;
+    font-weight: 600;
+}
+
+/* Step 2: Transcript Preview (Read-only) */
+.transcript-preview-container {
     background: white;
     border: 2px solid #e0e0e0;
-    border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 20px;
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 30px;
+    line-height: 2;
+    font-size: 1.05em;
 }
 
-/* Subtitle Separator */
-.subtitle-separator {
-    margin: 20px 0 15px 0;
-    padding: 8px 0;
-    border-top: 2px solid #e0e0e0;
-    display: flex;
-    align-items: center;
+.subtitle-block {
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e2e8f0;
 }
 
-.subtitle-separator:first-child {
-    margin-top: 0;
-    border-top: none;
+.subtitle-block:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
 
-.subtitle-separator-badge {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    padding: 6px 15px;
-    border-radius: 20px;
-    font-size: 0.85em;
-    font-weight: 600;
+.subtitle-label-preview {
+    font-size: 0.9em;
+    color: #667eea;
+    font-weight: bold;
+    text-transform: uppercase;
     letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    display: block;
 }
 
-/* Subtitle Words Group */
-.subtitle-words-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 10px;
+.transcript-line {
+    margin-bottom: 0;
+    line-height: 1.8;
 }
 
-/* Word Styling (Selectable) */
-.word {
-    display: inline-block;
-    padding: 8px 12px;
-    background: #f7fafc;
-    border: 2px solid #e2e8f0;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    user-select: none;
-    font-size: 0.95em;
+.preview-word {
+    display: inline;
     color: #2d3748;
+    transition: background 0.2s ease;
 }
 
-.word:hover {
-    background: #edf2f7;
-    border-color: #cbd5e0;
-    transform: translateY(-1px);
+.preview-word.highlighted {
+    background: #ffd700;
+    padding: 3px 5px;
+    border-radius: 3px;
+    font-weight: 500;
 }
 
-.word.selected {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+.preview-word.selecting {
+    background: #90EE90;
+    padding: 3px 5px;
+    border-radius: 3px;
+    font-weight: 500;
+}
+
+/* Step 3: Transcript Text Container - Interactive Selection */
+.transcript-text-container {
+    background: white;
+    border: 3px solid #5a67d8;
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 20px;
+    line-height: 2.2;
+    font-size: 1.05em;
+}
+
+/* Word Styling - Inline Display */
+.word-inline {
+    display: inline;
+    cursor: pointer;
+    user-select: none;
+    color: #2d3748;
+    transition: all 0.15s ease;
+    padding: 2px 0;
+}
+
+.word-inline:hover {
+    color: #5a67d8;
+    font-weight: 500;
+}
+
+.word-inline.selected {
+    background: #48bb78;
     color: white;
-    border-color: #667eea;
+    padding: 4px 6px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.word-inline.highlighted {
+    background: #ffd700;
+    padding: 4px 6px;
+    border-radius: 4px;
     font-weight: 500;
 }
 

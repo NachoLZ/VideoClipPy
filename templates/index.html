@@ -72,9 +72,23 @@
         </div>
       </section>
 
-      <!-- Step 2: View Transcript & Add Highlights -->
-      <section class="card" id="transcript-section" style="display: none">
-        <h2>Step 2: Select Text for Highlights</h2>
+      <!-- Step 2: Transcript Preview -->
+      <section
+        class="card"
+        id="transcript-preview-section"
+        style="display: none"
+      >
+        <h2>Step 2: Transcript Preview</h2>
+        <p class="instruction">
+          📄 Below is your transcript broken into lines. Highlighted words show
+          where you've added subtitles.
+        </p>
+        <div id="transcript-preview" class="transcript-box"></div>
+      </section>
+
+      <!-- Step 3: Select Text for Highlights -->
+      <section class="card" id="selection-section" style="display: none">
+        <h2>Step 3: Select Text for Highlights</h2>
         <p class="instruction">
           💡 <strong>How to select:</strong> Click and drag to select multiple
           words, or click one word then Shift+Click another to select a range.
@@ -120,9 +134,9 @@
         </div>
       </section>
 
-      <!-- Step 3: Review Subtitles -->
+      <!-- Step 4: Review Subtitles -->
       <section class="card" id="highlights-section" style="display: none">
-        <h2>Step 3: Review Your Subtitles & Clips</h2>
+        <h2>Step 4: Review Your Subtitles & Clips</h2>
         <p class="instruction">
           Each subtitle below will appear in your video during the selected
           words, with the assigned video clip or audio playing.
@@ -139,7 +153,7 @@
         </div>
       </section>
 
-      <!-- Step 4: Download Result -->
+      <!-- Step 5: Download Result -->
       <section class="card" id="result-section" style="display: none">
         <h2>✅ Video Processed Successfully!</h2>
         <p id="result-message"></p>

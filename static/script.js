@@ -12,7 +12,11 @@ const transcriptFileInput = document.getElementById("transcript-file-input");
 const transcriptFilename = document.getElementById("transcript-filename");
 const uploadBtn = document.getElementById("upload-btn");
 const uploadProgress = document.getElementById("upload-progress");
-const transcriptSection = document.getElementById("transcript-section");
+const transcriptPreviewSection = document.getElementById(
+  "transcript-preview-section"
+);
+const transcriptPreview = document.getElementById("transcript-preview");
+const selectionSection = document.getElementById("selection-section");
 const transcriptDisplay = document.getElementById("transcript-display");
 const selectionControls = document.getElementById("selection-controls");
 const selectedTextSpan = document.getElementById("selected-text");
@@ -109,8 +113,9 @@ async function uploadVideo() {
     transcriptData = data.transcript;
     subtitles = data.subtitles;
 
-    displaySubtitles(data.subtitles, data.transcript);
-    transcriptSection.style.display = "block";
+    displayTranscript(data.subtitles, data.transcript);
+    transcriptPreviewSection.style.display = "block";
+    selectionSection.style.display = "block";
     highlightsSection.style.display = "block";
 
     alert(
@@ -124,79 +129,133 @@ async function uploadVideo() {
   }
 }
 
-function displaySubtitles(subtitles, transcript) {
+function displayTranscript(subtitles, transcript) {
+  // Clear both sections
+  transcriptPreview.innerHTML = "";
   transcriptDisplay.innerHTML = "";
 
-  // Create full word-by-word transcript with selection enabled
-  const transcriptHeader = document.createElement("div");
-  transcriptHeader.className = "transcript-header";
-  transcriptHeader.innerHTML = `
-    <h3>🎯 Select Words to Assign Clips</h3>
-    <p class="transcript-description">Click and drag to select words, or Shift+Click to extend selection. You can select any range of words across any subtitles.</p>
-  `;
-  transcriptDisplay.appendChild(transcriptHeader);
+  // STEP 2: Read-only preview with line-by-line display and highlights
+  const previewContainer = document.createElement("div");
+  previewContainer.className = "transcript-preview-container";
 
-  const transcriptContainer = document.createElement("div");
-  transcriptContainer.className = "transcript-container";
+  // Display transcript line by line with subtitle labels
+  subtitles.forEach((subtitle, index) => {
+    const subtitleBlock = document.createElement("div");
+    subtitleBlock.className = "subtitle-block";
 
-  // Display words grouped by subtitle with visual separators
-  subtitles.forEach((subtitle, subtitleIndex) => {
-    // Add subtitle separator
-    const separator = document.createElement("div");
-    separator.className = "subtitle-separator";
-    separator.innerHTML = `<span class="subtitle-separator-badge">Subtitle #${
-      subtitleIndex + 1
-    }</span>`;
-    transcriptContainer.appendChild(separator);
+    // Add subtitle label
+    const label = document.createElement("div");
+    label.className = "subtitle-label-preview";
+    label.textContent = `Subtitle ${index + 1}`;
+    subtitleBlock.appendChild(label);
 
-    // Add words for this subtitle
-    const wordsContainer = document.createElement("div");
-    wordsContainer.className = "subtitle-words-group";
+    // Add the line of text
+    const lineDiv = document.createElement("div");
+    lineDiv.className = "transcript-line";
 
     for (let i = subtitle.start_word; i <= subtitle.end_word; i++) {
       const wordSpan = document.createElement("span");
-      wordSpan.className = "word";
-      wordSpan.textContent = transcript[i].word;
+      wordSpan.className = "preview-word";
       wordSpan.dataset.index = i;
-
-      // Mouse events for selection
-      wordSpan.addEventListener("mousedown", (e) => {
-        if (e.shiftKey && selectedRange) {
-          // Extend selection
-          const newIndex = parseInt(wordSpan.dataset.index);
-          selectedRange.end = newIndex;
-          updateSelection();
-        } else {
-          // Start new selection
-          selectedRange = {
-            start: parseInt(wordSpan.dataset.index),
-            end: parseInt(wordSpan.dataset.index),
-          };
-          updateSelection();
-        }
-      });
-
-      wordSpan.addEventListener("mouseenter", (e) => {
-        if (e.buttons === 1 && selectedRange) {
-          // Dragging
-          selectedRange.end = parseInt(wordSpan.dataset.index);
-          updateSelection();
-        }
-      });
-
-      wordsContainer.appendChild(wordSpan);
+      wordSpan.textContent = transcript[i].word;
+      lineDiv.appendChild(wordSpan);
+      lineDiv.appendChild(document.createTextNode(" "));
     }
 
-    transcriptContainer.appendChild(wordsContainer);
+    subtitleBlock.appendChild(lineDiv);
+    previewContainer.appendChild(subtitleBlock);
   });
 
-  transcriptDisplay.appendChild(transcriptContainer);
+  transcriptPreview.appendChild(previewContainer);
+
+  // STEP 3: Interactive word selection
+  const selectionContainer = document.createElement("div");
+  selectionContainer.className = "transcript-text-container";
+
+  // Display all words inline for selection
+  transcript.forEach((entry, index) => {
+    const wordSpan = document.createElement("span");
+    wordSpan.className = "word-inline";
+    wordSpan.textContent = entry.word;
+    wordSpan.dataset.index = index;
+
+    // Mouse events for selection
+    wordSpan.addEventListener("mousedown", (e) => {
+      if (e.shiftKey && selectedRange) {
+        const newIndex = parseInt(wordSpan.dataset.index);
+        selectedRange.end = newIndex;
+        updateSelection();
+      } else {
+        selectedRange = {
+          start: parseInt(wordSpan.dataset.index),
+          end: parseInt(wordSpan.dataset.index),
+        };
+        updateSelection();
+      }
+    });
+
+    wordSpan.addEventListener("mouseenter", (e) => {
+      if (e.buttons === 1 && selectedRange) {
+        selectedRange.end = parseInt(wordSpan.dataset.index);
+        updateSelection();
+      }
+    });
+
+    selectionContainer.appendChild(wordSpan);
+    selectionContainer.appendChild(document.createTextNode(" "));
+  });
+
+  transcriptDisplay.appendChild(selectionContainer);
+
+  // Update preview with existing highlights
+  updatePreviewHighlights();
+}
+
+function updatePreviewHighlights() {
+  // Clear all highlights in Step 2 preview
+  document.querySelectorAll(".preview-word").forEach((el) => {
+    el.classList.remove("highlighted");
+  });
+
+  // Clear all highlights in Step 3 selection
+  document.querySelectorAll(".word-inline").forEach((el) => {
+    el.classList.remove("highlighted");
+  });
+
+  // Apply highlights based on current highlights array to BOTH Step 2 and Step 3
+  highlights.forEach((highlight) => {
+    const start = Math.min(highlight.start_word, highlight.end_word);
+    const end = Math.max(highlight.start_word, highlight.end_word);
+
+    for (let i = start; i <= end; i++) {
+      // Highlight in Step 2 preview
+      const previewWordEl = document.querySelector(
+        `.preview-word[data-index="${i}"]`
+      );
+      if (previewWordEl) {
+        previewWordEl.classList.add("highlighted");
+      }
+
+      // Highlight in Step 3 selection
+      const selectionWordEl = document.querySelector(
+        `.word-inline[data-index="${i}"]`
+      );
+      if (selectionWordEl) {
+        selectionWordEl.classList.add("highlighted");
+      }
+    }
+  });
 }
 
 function updateSelection() {
-  // Clear previous selection
-  document.querySelectorAll(".word.selected").forEach((el) => {
+  // Clear previous selection in Step 3
+  document.querySelectorAll(".word-inline.selected").forEach((el) => {
     el.classList.remove("selected");
+  });
+
+  // Clear previous selection preview in Step 2
+  document.querySelectorAll(".preview-word.selecting").forEach((el) => {
+    el.classList.remove("selecting");
   });
 
   if (!selectedRange) return;
@@ -204,11 +263,19 @@ function updateSelection() {
   const start = Math.min(selectedRange.start, selectedRange.end);
   const end = Math.max(selectedRange.start, selectedRange.end);
 
-  // Highlight selected words
+  // Highlight selected words in Step 3
   for (let i = start; i <= end; i++) {
-    const wordEl = document.querySelector(`.word[data-index="${i}"]`);
+    const wordEl = document.querySelector(`.word-inline[data-index="${i}"]`);
     if (wordEl) {
       wordEl.classList.add("selected");
+    }
+
+    // Also highlight in Step 2 preview (real-time)
+    const previewWordEl = document.querySelector(
+      `.preview-word[data-index="${i}"]`
+    );
+    if (previewWordEl) {
+      previewWordEl.classList.add("selecting");
     }
   }
 
@@ -224,9 +291,17 @@ function updateSelection() {
 function cancelSelection() {
   selectedRange = null;
   currentSubtitleIndex = null;
-  document.querySelectorAll(".word.selected").forEach((el) => {
+
+  // Clear selection in Step 3
+  document.querySelectorAll(".word-inline.selected").forEach((el) => {
     el.classList.remove("selected");
   });
+
+  // Clear real-time preview in Step 2
+  document.querySelectorAll(".preview-word.selecting").forEach((el) => {
+    el.classList.remove("selecting");
+  });
+
   selectionControls.style.display = "none";
 }
 
@@ -326,6 +401,7 @@ function addHighlight() {
   highlights.push(highlight);
 
   updateHighlightsList();
+  updatePreviewHighlights(); // Update Step 2 preview
   cancelSelection();
 }
 
@@ -342,8 +418,8 @@ function updateHighlightsList() {
   const header = document.createElement("div");
   header.className = "subtitles-header";
   header.innerHTML = `
-    <h3>📝 Your Subtitles (${highlights.length})</h3>
-    <p class="subtitles-description">Each subtitle will appear during the selected words with the assigned clip/audio</p>
+    <h3>Your Assigned Highlights (${highlights.length})</h3>
+    <p class="subtitles-description">Each highlight will appear during the selected words with the assigned clip/audio</p>
   `;
   highlightsList.appendChild(header);
 
@@ -400,18 +476,9 @@ function updateHighlightsList() {
 }
 
 function removeHighlight(index) {
-  const highlight = highlights[index];
-
-  // Remove highlighted class from words
-  for (let i = highlight.start_word; i <= highlight.end_word; i++) {
-    const wordEl = document.querySelector(`.word[data-index="${i}"]`);
-    if (wordEl) {
-      wordEl.classList.remove("highlighted");
-    }
-  }
-
   highlights.splice(index, 1);
   updateHighlightsList();
+  updatePreviewHighlights(); // Update Step 2 preview
 }
 
 async function processVideo() {
