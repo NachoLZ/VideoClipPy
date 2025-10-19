@@ -7,7 +7,7 @@ import os
 import json
 import tempfile
 from pathlib import Path
-from flask import Flask, render_template, request, jsonify, send_file
+from flask import Flask, render_template, request, jsonify, send_file, send_from_directory
 from werkzeug.utils import secure_filename
 from video_overlay_script import (
     ProjectConfig,
@@ -16,7 +16,16 @@ from video_overlay_script import (
     render_project,
 )
 
-app = Flask(__name__)
+# Check if React build exists
+USE_REACT_BUILD = os.path.exists('frontend/dist/index.html')
+
+if USE_REACT_BUILD:
+    # Serve React build
+    app = Flask(__name__, static_folder='frontend/dist', static_url_path='')
+else:
+    # Serve traditional templates
+    app = Flask(__name__)
+
 app.config['MAX_CONTENT_LENGTH'] = 500 * 1024 * 1024  # 500MB max file size
 app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['OUTPUT_FOLDER'] = 'outputs'
@@ -112,6 +121,8 @@ def allowed_file(filename, allowed_extensions):
 @app.route('/')
 def index():
     """Render the main page."""
+    if USE_REACT_BUILD:
+        return send_from_directory(app.static_folder, 'index.html')
     return render_template('index.html')
 
 
@@ -291,6 +302,7 @@ def process_video():
         video_path = data.get('video_path')
         highlights = data.get('highlights', [])
         transcript = data.get('transcript', [])
+        subtitles = data.get('subtitles', [])
 
         if not video_path or not os.path.exists(video_path):
             return jsonify({'error': 'Video file not found'}), 400
@@ -313,12 +325,21 @@ def process_video():
         output_filename = f"output_{Path(video_path).stem}.mp4"
         output_path = os.path.join(app.config['OUTPUT_FOLDER'], output_filename)
 
+        # Convert subtitles to subtitle_segments format (list of tuples)
+        subtitle_segments = None
+        if subtitles:
+            subtitle_segments = [
+                (subtitle['start_word'], subtitle['end_word'])
+                for subtitle in subtitles
+            ]
+
         # Create project config
         config = ProjectConfig(
             main_video_path=video_path,
             output_path=output_path,
             highlight_assignments=assignments,
-            preserve_audio=data.get('preserve_audio', True)
+            preserve_audio=data.get('preserve_audio', True),
+            subtitle_segments=subtitle_segments
         )
 
         # Render the project with the existing transcript

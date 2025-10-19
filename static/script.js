@@ -803,6 +803,7 @@ async function processVideo() {
         highlights: allHighlights,
         transcript: transcriptData,
         preserve_audio: true,
+        subtitles: subtitles,
       }),
     });
 
