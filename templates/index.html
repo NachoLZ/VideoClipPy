@@ -101,14 +101,28 @@
           <div class="highlight-form">
             <div class="form-group">
               <label>Upload Clip for this highlight:</label>
-              <input type="file" id="clip-input" accept="video/*" />
+              <div class="file-input-wrapper">
+                <input
+                  type="file"
+                  id="clip-input"
+                  accept="video/*"
+                  class="hidden-file-input"
+                />
+                <button
+                  class="btn btn-primary"
+                  onclick="document.getElementById('clip-input').click()"
+                >
+                  📁 Choose File
+                </button>
+                <span id="clip-filename" class="file-name-display"></span>
+              </div>
               <button class="btn btn-secondary" id="upload-clip-btn">
-                Upload
+                ⬆️ Upload
               </button>
             </div>
             <div class="form-group">
               <label>Or select existing clip:</label>
-              <select id="existing-clips">
+              <select id="existing-clips" class="custom-select">
                 <option value="">-- Select existing file --</option>
               </select>
             </div>
@@ -146,14 +160,28 @@
           <div class="highlight-form">
             <div class="form-group">
               <label>Upload Audio/Music for this selection:</label>
-              <input type="file" id="music-input" accept="audio/*" />
+              <div class="file-input-wrapper">
+                <input
+                  type="file"
+                  id="music-input"
+                  accept="audio/*"
+                  class="hidden-file-input"
+                />
+                <button
+                  class="btn btn-primary"
+                  onclick="document.getElementById('music-input').click()"
+                >
+                  📁 Choose Audio File
+                </button>
+                <span id="music-filename" class="file-name-display"></span>
+              </div>
               <button class="btn btn-secondary" id="upload-music-btn">
-                Upload
+                ⬆️ Upload
               </button>
             </div>
             <div class="form-group">
               <label>Or select existing audio:</label>
-              <select id="existing-music-select">
+              <select id="existing-music-select" class="custom-select">
                 <option value="">-- Select existing audio --</option>
               </select>
             </div>

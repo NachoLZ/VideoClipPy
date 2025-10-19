@@ -21,6 +21,7 @@ const transcriptDisplay = document.getElementById("transcript-display");
 const selectionControls = document.getElementById("selection-controls");
 const selectedTextSpan = document.getElementById("selected-text");
 const clipInput = document.getElementById("clip-input");
+const clipFilename = document.getElementById("clip-filename");
 const uploadClipBtn = document.getElementById("upload-clip-btn");
 const existingClipsSelect = document.getElementById("existing-clips");
 const addHighlightBtn = document.getElementById("add-highlight-btn");
@@ -38,6 +39,7 @@ const musicSelectionControls = document.getElementById(
 );
 const musicSelectedText = document.getElementById("music-selected-text");
 const musicInput = document.getElementById("music-input");
+const musicFilename = document.getElementById("music-filename");
 const uploadMusicBtn = document.getElementById("upload-music-btn");
 const existingMusicSelect = document.getElementById("existing-music-select");
 const musicVolume = document.getElementById("music-volume");
@@ -65,9 +67,11 @@ let selectedMusicRange = null;
 mainVideoInput.addEventListener("change", handleVideoSelection);
 transcriptFileInput.addEventListener("change", handleTranscriptSelection);
 uploadBtn.addEventListener("click", uploadVideo);
+clipInput.addEventListener("change", handleClipSelection);
 uploadClipBtn.addEventListener("click", uploadClip);
 addHighlightBtn.addEventListener("click", addHighlight);
 cancelSelectionBtn.addEventListener("click", cancelSelection);
+musicInput.addEventListener("change", handleMusicSelection);
 uploadMusicBtn.addEventListener("click", uploadMusicFile);
 musicVolume.addEventListener("input", (e) => {
   musicVolumeDisplay.textContent = e.target.value;
@@ -93,6 +97,24 @@ function handleTranscriptSelection(e) {
   if (file) {
     transcriptFilename.textContent = `Selected: ${file.name}`;
     checkUploadReady();
+  }
+}
+
+function handleClipSelection(e) {
+  const file = e.target.files[0];
+  if (file) {
+    clipFilename.textContent = file.name;
+  } else {
+    clipFilename.textContent = "";
+  }
+}
+
+function handleMusicSelection(e) {
+  const file = e.target.files[0];
+  if (file) {
+    musicFilename.textContent = file.name;
+  } else {
+    musicFilename.textContent = "";
   }
 }
 
