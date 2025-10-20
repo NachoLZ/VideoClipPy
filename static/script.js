@@ -814,19 +814,25 @@ async function processVideo() {
   // Combine highlights and music highlights
   const allHighlights = [...highlights, ...musicHighlights];
 
+  const payload = {
+    video_path: currentVideoPath,
+    highlights: allHighlights,
+    transcript: transcriptData,
+    preserve_audio: true,
+    subtitles: subtitles,
+  };
+
+  console.log("=== PAYLOAD BEING SENT TO /process-video ===");
+  console.log(JSON.stringify(payload, null, 2));
+  console.log("===========================================");
+
   try {
     const response = await fetch("/process-video", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        video_path: currentVideoPath,
-        highlights: allHighlights,
-        transcript: transcriptData,
-        preserve_audio: true,
-        subtitles: subtitles,
-      }),
+      body: JSON.stringify(payload),
     });
 
     const data = await response.json();

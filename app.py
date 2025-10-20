@@ -17,11 +17,11 @@ from video_overlay_script import (
 )
 
 # Check if React build exists
-USE_REACT_BUILD = os.path.exists('frontend/dist/index.html')
+USE_REACT_BUILD = False  # Force traditional Flask template
 
 if USE_REACT_BUILD:
     # Serve React build
-    app = Flask(__name__, static_folder='frontend/dist', static_url_path='')
+    app = Flask(__name__, static_folder='frontend/dist', static_url_path='/')
 else:
     # Serve traditional templates
     app = Flask(__name__)
