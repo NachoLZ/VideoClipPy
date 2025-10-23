@@ -34,7 +34,7 @@ GPU support is optional but recommended for large overlay clips.
 ## Project Layout
 - `app.py` – Flask web server for the frontend interface
 - `video_overlay_script.py` – main video processing pipeline
-- `templates/index.html` – web interface
+- `templates/index.html` – web interface from Flask (not the React frontend)
 - `static/script.js` – frontend JavaScript for interactive features
 - `static/styles.css` – modern purple gradient styling
 - `demo_project.json` – example configuration describing highlights, subtitles,
@@ -70,6 +70,23 @@ python app.py
    - Click "Process Video"
    - Wait for processing to complete
    - Download your edited video!
+
+## Quick Start (React Frontend)
+
+For a more interactive experience, you can run the React frontend.
+
+1.  **Start the Python backend:**
+    In a terminal, run the Flask server:
+    ```bash
+    python app.py
+    ```
+
+2.  **Start the React frontend:**
+    In a separate terminal, run the provided batch file:
+    ```bash
+    run_react_frontend.bat
+    ```
+    This will install dependencies and start the React development server, which will open the frontend in your browser (usually at `http://localhost:3000`).
 
 ### TXT File Format (IMPORTANT!)
 
