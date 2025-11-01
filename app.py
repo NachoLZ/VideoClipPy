@@ -16,15 +16,8 @@ from video_overlay_script import (
     render_project,
 )
 
-# Check if React build exists
-USE_REACT_BUILD = False  # Force traditional Flask template
-
-if USE_REACT_BUILD:
-    # Serve React build
-    app = Flask(__name__, static_folder='frontend/dist', static_url_path='/')
-else:
-    # Serve traditional templates
-    app = Flask(__name__)
+# Vercel will serve the React build, so Flask only needs to be an API.
+app = Flask(__name__)
 
 app.config['MAX_CONTENT_LENGTH'] = 500 * 1024 * 1024  # 500MB max file size
 app.config['UPLOAD_FOLDER'] = 'uploads'
@@ -118,12 +111,8 @@ def allowed_file(filename, allowed_extensions):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_extensions
 
 
-@app.route('/')
-def index():
-    """Render the main page."""
-    if USE_REACT_BUILD:
-        return send_from_directory(app.static_folder, 'index.html')
-    return render_template('index.html')
+# The root route is handled by Vercel serving the React app's index.html.
+# This route is no longer needed in Flask.
 
 
 @app.route('/test-route')
@@ -385,7 +374,5 @@ def list_clips():
     })
 
 
-if __name__ == '__main__':
-    # Disable reloader to prevent server restarts during video processing
-    app.run(debug=True, host='0.0.0.0', port=5000, use_reloader=False)
+# This block is not needed for Vercel deployment.
 
