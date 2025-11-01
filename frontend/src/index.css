@@ -1,0 +1,81 @@
+@import "tailwindcss";
+@plugin '../hero.ts';
+@source '../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
+@custom-variant dark (&:is(.dark *));
+
+@layer base {
+  body {
+    @apply bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50;
+    @apply min-h-screen;
+    @apply font-sans antialiased;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Custom styles for word selection - iOS Style */
+.word-selectable {
+  @apply inline-block cursor-pointer px-1.5 py-0.5 rounded-lg;
+  @apply transition-all duration-150 ease-out;
+  @apply select-none;
+  @apply hover:bg-purple-100/60 hover:scale-[1.02];
+}
+
+.word-selected {
+  @apply bg-gradient-to-r from-green-500 to-emerald-600;
+  @apply text-white font-semibold shadow-sm;
+  @apply scale-[1.02];
+  @apply rounded-lg;
+}
+
+.word-highlighted {
+  @apply bg-gradient-to-r from-amber-400 to-yellow-500;
+  @apply text-gray-900 font-semibold shadow-sm;
+  @apply rounded-lg;
+}
+
+.word-preview-highlighted {
+  @apply bg-amber-100 border-b-2 border-amber-400;
+  @apply rounded-sm px-1;
+}
+
+.word-preview-selecting {
+  @apply bg-gradient-to-r from-green-400 to-emerald-500;
+  @apply text-white font-semibold;
+  @apply rounded-md px-1.5 py-0.5;
+  @apply shadow-md;
+  @apply animate-none;
+}
+
+/* iOS-style scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300/60 rounded-full;
+  @apply hover:bg-gray-400/60;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
