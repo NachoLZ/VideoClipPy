@@ -39,7 +39,7 @@ export default function WordSelection({
 
   const loadExistingClips = async () => {
     try {
-      const response = await fetch("/list-clips");
+      const response = await fetch("/api/list-clips");
       const data = await response.json();
       setExistingClips(data.clips || []);
     } catch (error) {
@@ -77,7 +77,7 @@ export default function WordSelection({
     setUploading(true);
 
     try {
-      const response = await fetch("/upload-clip", {
+      const response = await fetch("/api/upload-clip", {
         method: "POST",
         body: formData,
       });

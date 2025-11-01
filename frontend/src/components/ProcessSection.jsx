@@ -59,7 +59,7 @@ function ProcessSection({
     console.log("Payload being sent to backend:", payload);
 
     try {
-      const response = await fetch("/process-video", {
+      const response = await fetch("/api/process-video", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

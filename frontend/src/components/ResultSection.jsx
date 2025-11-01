@@ -10,7 +10,7 @@ import { Icon } from "@iconify/react";
 
 function ResultSection({ outputFilename, onReset }) {
   const handleDownload = () => {
-    window.location.href = `/download/${outputFilename}`;
+    window.location.href = `/api/download/${outputFilename}`;
   };
 
   return (

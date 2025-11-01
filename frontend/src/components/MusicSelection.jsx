@@ -36,7 +36,7 @@ function MusicSelection({
 
   const loadExistingAudio = async () => {
     try {
-      const response = await fetch("/list-clips");
+      const response = await fetch("/api/list-clips");
       const data = await response.json();
       setAudioFiles(data.audio_files || []);
     } catch (error) {
@@ -71,7 +71,7 @@ function MusicSelection({
 
     setUploading(true);
     try {
-      const response = await fetch("/upload-clip", {
+      const response = await fetch("/api/upload-clip", {
         method: "POST",
         body: formData,
       });

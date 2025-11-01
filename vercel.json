@@ -9,14 +9,14 @@
             }
         },
         {
-            "src": "app.py",
+            "src": "api/index.py",
             "use": "@vercel/python"
         }
     ],
     "routes": [
         {
-            "src": "/(upload-video-with-txt|upload-clip|process-video|download/.*|list-clips)",
-            "dest": "app.py"
+            "src": "/api/(.*)",
+            "dest": "api/index.py"
         },
         {
             "src": "/static/(.*)",
@@ -24,7 +24,7 @@
         },
         {
             "src": "/(.*)",
-            "dest": "/index.html"
+            "dest": "/frontend/dist/index.html"
         }
     ]
 }

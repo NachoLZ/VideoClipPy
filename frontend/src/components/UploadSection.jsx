@@ -41,7 +41,7 @@ export default function UploadSection({ onUploadSuccess }) {
     setUploading(true);
 
     try {
-      const response = await fetch("/upload-video-with-txt", {
+      const response = await fetch("/api/upload-video-with-txt", {
         method: "POST",
         body: formData,
       });
